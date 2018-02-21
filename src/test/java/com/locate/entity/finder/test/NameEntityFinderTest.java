@@ -15,8 +15,9 @@ public class NameEntityFinderTest {
 	
 private static final Logger log = LoggerFactory.getLogger(NameEntityFinderTest.class);
 	
-	private static final String MODEL_FILE 		 = "en-ner-person.bin";
-	private static final String TOKEN_MODEL_FILE = "en-token.bin";
+	private static final String MODEL_FILE 		    = "en-ner-person.bin";
+	private static final String TOKEN_MODEL_FILE    = "en-token.bin";
+	private static final String TRAINING_MODEL_FILE = "en-ner-person.train";
 	
 	private static NameEntityFinder nameEntityFinder;
 	
@@ -28,14 +29,20 @@ private static final Logger log = LoggerFactory.getLogger(NameEntityFinderTest.c
 		tokenizer = new Tokenizer(new File(TOKEN_MODEL_FILE));
 		log.debug("Person model file = {}", MODEL_FILE);
 		nameEntityFinder = new NameEntityFinder(new File(MODEL_FILE));
+		
+		// Train model.
+		NameEntityFinder.train(new File(MODEL_FILE), new File(TRAINING_MODEL_FILE));
+		
 	}
+	
+	
 	
 	@Test
 	public void findEntity() {
 		Arrays.asList(
 				"Where is Charlie and Mike.", 
 				"Who is John Doe ?",
-				"My name is Binay Mishra.")
+				"My name Pierre Vinken and my friend is Binay Mishra.")
 				.forEach(line -> {
 					log.info("{} : {} ", line, nameEntityFinder.findEntity(tokenizer.tokenize(line)));
 				});
