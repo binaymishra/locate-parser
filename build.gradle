@@ -12,4 +12,6 @@ repositories {
 dependencies {
     compile('org.apache.opennlp:opennlp-tools:1.8.4')
     testCompile('junit:junit:4.12')
+    compile('org.slf4j:slf4j-log4j12:1.7.5')
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 }
