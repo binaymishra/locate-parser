@@ -36,7 +36,9 @@ public class IngredientsFinderTest {
 				+ "rosemary pieces, pour caramel onto the cooled shortbread\n\nPlace the caramel "
 				+ "topped shortbread in the fridge to cool for another 20 minutes\n\nMelt the chocolate "
 				+ "in the microwave on a low power settings (will take a couple of minutes), once it is smooth, "
-				+ "pour on top of the caramel shortbread and put back in the fridge to set.";
+				+ "pour on top of the caramel shortbread and put back in the fridge to set. "
+				//my input
+				+ " salt required almost all the food";
 		
 		finder.findEntity(tokenizer.tokenize(input))
 			.forEach(System.out::println);
