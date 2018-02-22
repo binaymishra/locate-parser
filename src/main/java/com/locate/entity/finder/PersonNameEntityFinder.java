@@ -8,6 +8,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.locate.utils.Utils;
+
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.NameSample;
 import opennlp.tools.namefind.NameSampleDataStream;
@@ -23,11 +25,17 @@ import opennlp.tools.util.TrainingParameters;
  * @author Binay Mishra
  *
  */
-public class NameEntityFinder  extends NameFinderME implements EntityFinder<String[], List<String>>{
+public class PersonNameEntityFinder  extends NameFinderME implements EntityFinder<String[], List<String>>{
+	
+	private static final String MODEL_FILE_NAME = "en-ner-person.bin";
 	
 	final static Charset charset = Charset.forName("UTF-8");
+	
+	public PersonNameEntityFinder() throws Exception {
+		super(new TokenNameFinderModel(Utils.getModelAsInputStream(MODEL_FILE_NAME)));
+	}
 
-	public NameEntityFinder(File modelFile) throws IOException {
+	public PersonNameEntityFinder(File modelFile) throws IOException {
 		super(new TokenNameFinderModel(modelFile));
 	}
 
@@ -40,18 +48,18 @@ public class NameEntityFinder  extends NameFinderME implements EntityFinder<Stri
 		return entities;
 	}
 	
-	public static void train(File modelFile, File trainingFile) throws IOException{
+	public static void train(File trainingFile) throws IOException{
 	    ObjectStream<String> in = new PlainTextByLineStream(new MarkableFileInputStreamFactory(trainingFile), charset);
 	    ObjectStream<NameSample> samples = new NameSampleDataStream(in);
 	    TokenNameFinderModel model;
 	    try{
-	      model = NameFinderME.train("en", "medicine", samples, TrainingParameters.defaultParams(),new TokenNameFinderFactory());
+	      model = NameFinderME.train("en", "person", samples, TrainingParameters.defaultParams(),new TokenNameFinderFactory());
 	    }finally {
 	      samples.close();
 	      in.close();
 	    }
 
-	    BufferedOutputStream modelOut = new BufferedOutputStream(new FileOutputStream(modelFile));
+	    BufferedOutputStream modelOut = new BufferedOutputStream(new FileOutputStream(Utils.getModelAsFile(MODEL_FILE_NAME), true));
 	    try{
 	      model.serialize(modelOut);
 	    }finally {

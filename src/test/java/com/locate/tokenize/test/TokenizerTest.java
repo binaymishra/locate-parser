@@ -1,6 +1,5 @@
 package com.locate.tokenize.test;
 
-import java.io.File;
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -10,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.locate.tokenize.Tokenizer;
+import com.locate.utils.Utils;
 
 public class TokenizerTest {
 	
@@ -22,7 +22,7 @@ public class TokenizerTest {
 	@BeforeClass
 	public static void init() throws Exception{
 		log.debug("Token model file = {}", MODEL_FILE);
-		tokenizer = new Tokenizer(new File(MODEL_FILE));
+		tokenizer = new Tokenizer(Utils.getModelAsFile(MODEL_FILE));
 	}
 	
 	@Test

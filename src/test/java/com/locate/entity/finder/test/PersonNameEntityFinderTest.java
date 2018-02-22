@@ -1,6 +1,5 @@
 package com.locate.entity.finder.test;
 
-import java.io.File;
 import java.util.Arrays;
 
 import org.junit.BeforeClass;
@@ -8,30 +7,27 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.locate.entity.finder.NameEntityFinder;
+import com.locate.entity.finder.PersonNameEntityFinder;
 import com.locate.tokenize.Tokenizer;
+import com.locate.utils.Utils;
 
-public class NameEntityFinderTest {
+public class PersonNameEntityFinderTest {
 	
-private static final Logger log = LoggerFactory.getLogger(NameEntityFinderTest.class);
+private static final Logger log = LoggerFactory.getLogger(PersonNameEntityFinderTest.class);
 	
-	private static final String MODEL_FILE 		    = "en-ner-person.bin";
-	private static final String TOKEN_MODEL_FILE    = "en-token.bin";
 	private static final String TRAINING_MODEL_FILE = "en-ner-person.train";
 	
-	private static NameEntityFinder nameEntityFinder;
+	private static PersonNameEntityFinder nameEntityFinder;
 	
 	private static Tokenizer tokenizer;
 	
 	@BeforeClass
 	public static void init() throws Exception {
-		log.debug("Token model file = {}", TOKEN_MODEL_FILE);
-		tokenizer = new Tokenizer(new File(TOKEN_MODEL_FILE));
-		log.debug("Person model file = {}", MODEL_FILE);
-		nameEntityFinder = new NameEntityFinder(new File(MODEL_FILE));
+		tokenizer = new Tokenizer();
+		nameEntityFinder = new PersonNameEntityFinder();
 		
 		// Train model.
-		NameEntityFinder.train(new File(MODEL_FILE), new File(TRAINING_MODEL_FILE));
+		PersonNameEntityFinder.train(Utils.getTrainerAsFile(TRAINING_MODEL_FILE));
 		
 	}
 	
